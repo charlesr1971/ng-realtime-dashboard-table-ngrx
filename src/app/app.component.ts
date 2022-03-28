@@ -98,6 +98,7 @@ export class AppComponent implements OnInit, OnDestroy {
       }
       const rowData = this.agGridService.addExtraColumnsToTaskData(this.rowData);
       const columnDefs = this.agGridService.createAgGridColumnDefs();
+      this.columnDefs = columnDefs;
       this.rowData = rowData;
       try{
         this.createAgGrid(rowData);

@@ -9,14 +9,45 @@
     <app-monthly-cash></app-monthly-cash>
   </div> -->
   <ng-container *ngIf="gridOptions">
-    <ag-grid-angular
+    <!-- <ag-grid-angular
       #agGrid
       style="width: 99%; height: 600px;"
       class="ag-theme-alpine"
       [gridOptions]="gridOptions"
       (gridReady)="onGridReady($event)"
   >
-  </ag-grid-angular>
+  </ag-grid-angular> -->
+  <table border="1">
+    <tr>
+      <th *ngFor="let column of columnDefs; let i = index">
+        {{ column.field }}
+      </th>
+    </tr>
+    <tr *ngFor="let row of rowData; let i = index">
+      <!-- <td *ngFor="let column of row | keyvalue">
+        <span *ngIf="column.key === row">
+          {{ column.value }}
+        </span>
+      </td> -->
+      <td>
+        {{ row.id }}
+      </td>
+      <td>
+        {{ row.name }}
+      </td>
+      <td>
+        {{ row.assignee }}
+      </td>
+      <td>
+        {{ row.created }}
+      </td>
+      <td [innerHTML]="row.update"></td>
+      <td [innerHTML]="row.deletes"></td>
+      <td>
+        {{ row.status }}
+      </td>
+    </tr>
+  </table>
 </ng-container>
 </div>
 <!-- <app-live-table></app-live-table> -->
