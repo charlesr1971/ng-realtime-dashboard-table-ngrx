@@ -8,7 +8,7 @@
   <div class="ng-cash-month-column">
     <app-monthly-cash></app-monthly-cash>
   </div> -->
-  <ng-container *ngIf="gridOptions">
+  <ng-container *ngIf="columnDefs">
     <!-- <ag-grid-angular
       #agGrid
       style="width: 99%; height: 600px;"
@@ -17,7 +17,7 @@
       (gridReady)="onGridReady($event)"
   >
   </ag-grid-angular> -->
-  <table border="1">
+  <table border="1" width="100%" cellpadding="10">
     <tr>
       <th *ngFor="let column of columnDefs; let i = index">
         {{ column.field }}
@@ -41,10 +41,15 @@
       <td>
         {{ row.created }}
       </td>
-      <td [innerHTML]="row.update"></td>
-      <td [innerHTML]="row.deletes"></td>
-      <td>
+      <td class="center"><a href="javascript:void(0);" [innerHTML]="row.update" (click)="sendUpdate(row.id)">{{ row.update }}</a></td>
+      <td class="center"><a href="javascript:void(0);" [innerHTML]="row.deletes" (click)="sendDelete(row.id)">{{ row.deletes }}</a></td>
+      <td class="center">
         {{ row.status }}
+      </td>
+    </tr>
+    <tr>
+      <td id="ag-20">
+
       </td>
     </tr>
   </table>

@@ -23,6 +23,7 @@ import { GetTransactions } from './store/actions/cash.action';
 import * as apiSelector from './store/selectors/api.selector';
 
 import { CustomTask } from './core/models/CustomTask.model';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-root',
@@ -44,6 +45,8 @@ export class AppComponent implements OnInit, OnDestroy {
   columnDefs: any = [];
 
   rowData: any = [];
+
+  init = true;
 
   debug = true;
   debugErr = true;
@@ -134,6 +137,13 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         }
       };
+      if(this.init){
+        if (this.debug) {
+          console.log('AppComponent: ngOnInit(): this.init: ', this.init);
+        }
+        this.createButtons();
+        this.init = false;
+      }
     });
 
     this.service.connect().pipe(
@@ -188,7 +198,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   onGridReady(params: GridReadyEvent) {
     this.gridOptions.api.sizeColumnsToFit();
-    const ag20 = this.documentBody.querySelector('#ag-20');
+    /* const ag20 = this.documentBody.querySelector('#ag-20');
     if (ag20) {
       let addButton = this.renderer.createElement('button');
       // tslint:disable-next-line: max-line-length
@@ -235,8 +245,66 @@ export class AppComponent implements OnInit, OnDestroy {
       }
       this.addUpdateEventHandlers();
       this.addDeleteEventHandlers();
-    }
+    } */
+    this.createButtons();
     this.gridApi = params.api;
+  }
+
+  createButtons() {
+    const ag20 = this.documentBody.querySelector('#ag-20');
+    if (this.debug) {
+      console.log('AppComponent: createButtons(): ag20: ', ag20);
+    }
+    if (ag20) {
+      if (this.debug) {
+        console.log('AppComponent: createButtons(): ag20: ', ag20);
+      }
+      let addButton = this.renderer.createElement('button');
+      // tslint:disable-next-line: max-line-length
+      this.renderer.setAttribute(addButton, 'class', 'mdl-button mdl-js-ripple-effect mdl-button--raised mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored button-add');
+      this.renderer.setAttribute(addButton, 'id', 'button-add');
+      this.renderer.setAttribute(addButton, 'disabled', 'disabled');
+      let addIcon = this.renderer.createElement('i');
+      this.renderer.setAttribute(addIcon, 'class', 'material-icons');
+      let newContent = this.renderer.createText('add');
+      this.renderer.appendChild(addIcon, newContent);
+      this.renderer.appendChild(addButton, addIcon);
+      this.renderer.appendChild(ag20, addButton);
+      addButton = this.renderer.createElement('button');
+      // tslint:disable-next-line: max-line-length
+      this.renderer.setAttribute(addButton, 'class', 'mdl-button mdl-js-ripple-effect mdl-button--raised mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--accent button-delete-all');
+      this.renderer.setAttribute(addButton, 'id', 'button-delete-all');
+      this.renderer.setAttribute(addButton, 'disabled', 'disabled');
+      addIcon = this.renderer.createElement('i');
+      this.renderer.setAttribute(addIcon, 'class', 'material-icons');
+      newContent = this.renderer.createText('delete');
+      this.renderer.appendChild(addIcon, newContent);
+      this.renderer.appendChild(addButton, addIcon);
+      this.renderer.appendChild(ag20, addButton);
+      // componentHandler.upgradeDom();
+      this.service.onOpenHasListener$.subscribe( (bool) => {
+        if (this.debug) {
+          console.log('AppComponent: ngOnInit(): onOpenHasListener$: bool: ', bool);
+        }
+        if (bool === true) {
+          this.showButtons();
+        }
+      });
+      const buttonAdd = document.querySelector('#button-add');
+      if (buttonAdd) {
+        this.renderer.listen(buttonAdd, 'click', () => {
+          this.sendCreate();
+        });
+      }
+      const buttonDeleteAll = document.querySelector('#button-delete-all');
+      if (buttonDeleteAll) {
+        this.renderer.listen(buttonDeleteAll, 'click', () => {
+          this.sendDeleteAll();
+        });
+      }
+      this.addUpdateEventHandlers();
+      this.addDeleteEventHandlers();
+    }
   }
 
   createAgGrid(data) {
@@ -355,6 +423,10 @@ export class AppComponent implements OnInit, OnDestroy {
   sendCreate() {
     const customTask = this.service.createCustomTask();
     this.store.dispatch(ApiActions.createCustomTask({customTask}));
+  }
+
+  sendDeleteAll() {
+    this.store.dispatch(ApiActions.deleteCustomTasks());
   }
 
   sendUpdate(id) {
