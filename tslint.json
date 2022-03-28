@@ -1,0 +1,101 @@
+{
+  "root": true,
+  "ignorePatterns": [
+    "app/**/*",
+    "dist/**/*",
+    "release/**/*",
+    "src/app/shared/utils/**/*",
+    "src/app/core/services/utils/**/*"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "parserOptions": {
+        "project": [
+          "./tsconfig.serve.json",
+          "./src/tsconfig.app.json",
+          "./src/tsconfig.spec.json",
+          "./e2e/tsconfig.e2e.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "extends": [
+        "plugin:@angular-eslint/ng-cli-compat",
+        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
+      "rules": {
+        "prefer-arrow/prefer-arrow-functions": 0,
+        "@angular-eslint/directive-selector":  0,
+        "@angular-eslint/component-selector": 0,
+        "@typescript-eslint/naming-convention": [
+          "error",
+          {
+            "selector": "default",
+            "format": ["camelCase", "UPPER_CASE", "snake_case", "PascalCase"],
+            "leadingUnderscore": "allow",
+            "trailingUnderscore": "allow"
+          },
+          {
+            "selector": ["variable", "property"],
+            "format": ["camelCase", "UPPER_CASE", "snake_case", "PascalCase"],
+            "leadingUnderscore": "allow",
+            "trailingUnderscore": "allow"
+          },
+          {
+            "selector": "typeLike",
+            "format": ["camelCase", "UPPER_CASE", "snake_case", "PascalCase"]
+          },
+          {
+            "selector": "typeParameter",
+            "format": ["camelCase", "UPPER_CASE", "snake_case", "PascalCase"]
+          },
+          {
+            "selector": "enumMember",
+            "format": ["camelCase", "UPPER_CASE", "snake_case", "PascalCase"]
+          }
+        ],
+        "max-len": [
+          "error",
+          {
+            "code": 1000,
+            "ignoreUrls": true,
+            "ignorePattern": "^import\\s+.*"
+          }
+        ],
+        "@typescript-eslint/quotes": ["error", "single", { "avoidEscape": true, "allowTemplateLiterals": false }],
+        "space-before-function-paren": ["error", {
+            "anonymous": "ignore",
+            "named": "ignore",
+            "asyncArrow": "ignore"
+        }],
+        "jsdoc/no-types": 0,
+        "no-underscore-dangle": 0,
+        "guard-for-in": 0,
+        "@typescript-eslint/no-unused-expressions": 0,
+        "arrow-body-style": 0,
+        "@typescript-eslint/member-ordering": 0,
+        "radix": 0,
+        "@angular-eslint/template/eqeqeq": 0,
+        "@typescript-eslint/no-inferrable-types": 0,
+        "@typescript-eslint/prefer-for-of": 0,
+        "@typescript-eslint/consistent-type-assertions": 0,
+        "@typescript-eslint/no-shadow": 0,
+        "object-shorthand": 0,
+        "one-var": 0
+      }
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
+      "rules": {
+      }
+    }
+  ]
+}
